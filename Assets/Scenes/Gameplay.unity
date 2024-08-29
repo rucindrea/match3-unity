@@ -857,6 +857,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f18ae23bb1baf7c43b085762551d7714, type: 3}
   - {fileID: 21300000, guid: 00f9afa816c1f7d4bb8b0347f31652d3, type: 3}
   - {fileID: 21300000, guid: 41ffee8e82ea0b748b07d837c6fa8380, type: 3}
+  gemPrefabs:
+  - {fileID: 5416317596530608294, guid: 6ef86250323af4926a1b85cae0542b4b, type: 3}
+  - {fileID: 5416317596530608294, guid: 5e453fa544390498bbb20de5586779a7, type: 3}
+  - {fileID: 5416317596530608294, guid: fa6ff632bd26e421dab3cff22e1eb42d, type: 3}
+  - {fileID: 5416317596530608294, guid: 400040fd237f64986810ed79d0a22ab5, type: 3}
+  - {fileID: 5416317596530608294, guid: 2a477f5674c344f5f8e7edf847357f58, type: 3}
+  - {fileID: 5416317596530608294, guid: fab6411e1559249cfa78e1d952a1a62c, type: 3}
+  - {fileID: 5416317596530608294, guid: 2f4e7b2dc8e404454b84ee92ef7d608e, type: 3}
 --- !u!4 &750770653
 Transform:
   m_ObjectHideFlags: 0

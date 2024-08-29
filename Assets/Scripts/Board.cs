@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Board : MonoBehaviour {
@@ -20,7 +21,11 @@ public class Board : MonoBehaviour {
     private const float WAIT_TIME_MOVE = 0.5f;
 
     void Awake() => Setup();
-    void Start() => SetupBoard(false);
+    void Start() 
+    {
+        UnityEngine.Debug.Log("Start board with shuffle false");
+        SetupBoard(false);
+    }
 
     void Setup() {
         //Initial conditions
@@ -36,22 +41,35 @@ public class Board : MonoBehaviour {
     */
     void SetupBoard(bool shuffle) {
         while (reset) {
+            UnityEngine.Debug.Log("Resetting board");
             for (int x = 0; x < indexGrid.GetLength(0); x++) {
                 for (int y = 0; y < indexGrid.GetLength(1); y++) {
                     indexGrid[x, y] = Random.Range(0, gemsSprites.GetLength(0));
                 }
             }
+            UnityEngine.Debug.Log("Index grid: " + indexGrid);
             if (!CheckMatches(false) && CheckIfThereArePossibleMoves()) {
                 reset = false;
+                shuffle = false;
             }
         }
+        UnityEngine.Debug.Log("Setting up board");
         for (int x = 0; x < indexGrid.GetLength(0); x++) {
             for (int y = 0; y < indexGrid.GetLength(1); y++) {
+                UnityEngine.Debug.Log("Shuffle: " + shuffle);
                 if (!shuffle) {
+                    UnityEngine.Debug.Log("x: " + x + " y: " + y + " index: " + indexGrid[x, y]);
                     GameObject tempGemObj = Gem.Start(gem, initialPos, x, y, TILE_SIZE, gameObject.transform);
                     gems[x, y] = tempGemObj;
                 }
-                gems[x, y].GetComponent<SpriteRenderer>().sprite = gemsSprites[indexGrid[x, y]];
+                var currentGem = gems[x, y];
+                var spriteRenderer = currentGem.GetComponent<SpriteRenderer>();
+                var gemSprite = gemsSprites[indexGrid[x, y]];
+                spriteRenderer.sprite = gemSprite;
+                string type = gems[x, y].GetComponent<SpriteRenderer>().sprite.name.Split("characters_000").Last();
+                gems[x, y].gameObject.name = "Gem";
+                gems[x, y].GetComponent<Gem>().type = type;
+                gems[x, y].GetComponent<Gem>().index = new int[] { x, y };
                 Gem tempGem = gems[x, y].GetComponent<Gem>();
                 tempGem.SetCoordinates(new Dictionary<string, int>() { { "x", x }, { "y", y } });
             }
@@ -216,6 +234,7 @@ public class Board : MonoBehaviour {
     *   Applies a try & catch to ignore IndexOutOfRangeException error            
     */
     bool CheckIfThereArePossibleMoves() {
+        UnityEngine.Debug.Log("Checking for possible moves");
         bool ifPossibleMove = false;
         for (int x = 0; x < GRID_WIDTH; x++) {
             for (int y = 0; y < GRID_HEIGHT; y++) {
@@ -253,6 +272,7 @@ public class Board : MonoBehaviour {
             }
         }
         if (!ifPossibleMove) {
+            UnityEngine.Debug.Log("Need to shuffle");
             reset = true;
             SetupBoard(true);
             StartCoroutine(UI.instance.PopUpFadeAway(GameManager.instance.shuffleUI, 3.0f)); //Shuffle Pop-Up

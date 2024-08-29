@@ -9,10 +9,17 @@ public class Gem : MonoBehaviour {
     public bool selected = false;
     private Dictionary<string, int> coordinate;
 
+    public string type;
+
+    public bool isHint = false;
+
+    public int[] index;
+
     /* 
     *   Instantiate the gem object
     */
     public static GameObject Start(GameObject gem, Vector2 position, int x, int y, float TILE_SIZE, Transform parent){
+        UnityEngine.Debug.Log("Start gem with: " + x + " " + y + " " + TILE_SIZE + " " + position + " " + parent.name);
         return Instantiate(gem, new Vector2(position.x + (x * TILE_SIZE), position.y + (y * TILE_SIZE)), Quaternion.identity, parent);
     }
 
